@@ -1,0 +1,163 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+/* Clear Fix starts here*/
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* Clear fix ends here*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+ /* End CSS Clear */
+
+body {
+	font-family: helvetica, arial, sans-serif;
+	width: 860px;
+	margin: 0 auto;
+	background-color: grey;
+}
+
+img {
+	display: block;
+	width: auto;
+	height: 100px;
+	margin: 0 auto 5px;
+}
+
+h1 {
+	font-size: 42px;
+	font-weight: bold;
+	border: 0 0 50px 0;
+	background-color: white;
+	padding: 5px;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	margin: 10px 0 0 0;	
+	text-align: center;
+}
+
+h2 {
+	text-align: right;
+	font-size: 36px;
+	font-weight: bold;
+	border: 0 0 10px 0;
+	background-color: white;
+	padding: 5px;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	margin: 10px 0;
+}
+
+.total-cash {
+	display: inline;
+	
+}
+
+.fruit {
+	margin: 0 auto;
+}
+
+#apple, #orange, #banana, #grape, #pear{
+	display: inline;
+	float: left;
+	width: 185px;
+	height: 225px;
+	margin: 3px;
+	padding: 12px;
+	background-color: white;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+}
+
+span {
+	font-size: 12px;
+	padding: 5px;
+}
+
+.button {
+	background-color:#44c767;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	border:1px solid #18ab29;
+	display:block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:17px;
+	padding: 5px 10px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+	margin: 5px auto 10px;
+}
+
+.button:hover {
+	background-color: #5cff2a;
+}
+
+.button:active {
+	position:relative;
+	top:3px;
+}
+
+.avg-price, .fruit-counter, .current-price {
+	display: inline;
+	font-size: 12px;
+}
+
+.current-price {
+	color: green;
+}
+
+.fruit-counter {
+	color: red;
+}
+
