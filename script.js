@@ -4,7 +4,7 @@ function randomNumber(min, max) {
 }
 
 function randomPrice(fruit) {
-	var newPrice = randomNumber (fruit.price-0.50, fruit.price+0.50);
+	var newPrice = randomNumber(fruit.price-0.50, fruit.price+0.50);
 	//Any given fruit is not allowed to go below a cost of 50 cents, 
 	//or above the cost of 9 dollars and 99 cents.
 
