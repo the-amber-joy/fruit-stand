@@ -1,3 +1,4 @@
+var gameover = false;
 var totalCash = 100;
 var apple = {
   name: "apple",
@@ -29,11 +30,6 @@ var pear = {
 };
 var fruitArray = [apple, orange, banana, pear];
 
-$(document).ready(function () {
-  $(".fruit").on("click", ".buybutton", clickBuy);
-  $(".fruit").on("click", ".button", clickSell);
-});
-
 function randomNumber(min, max) {
   return Math.floor(Math.random() * (1 + max - min) + min);
 }
@@ -61,10 +57,12 @@ function randomPrice(fruit) {
   }
   fruit.price = newPrice;
 
-  console.log(fruit.name, fruit.price);
+  console.log(fruit.name, "is now", fruit.price);
 }
 
 function repriceAllFruit() {
+  if (gameover) return;
+
   for (var i = 0; i < fruitArray.length; i++) {
     randomPrice(fruitArray[i]);
 
@@ -74,24 +72,20 @@ function repriceAllFruit() {
   }
 }
 
-function clickSell(thisFruit) {
-	console.log("selling", thisFruit.name, "for", thisFruit.price)
-
+function sellFruit(howMany, thisFruit) {
   $el = "#" + thisFruit.name;
 
-  if ($(`${$el}-counter`).text() > 0) {
+  for (var i = 0; i < howMany; i++) {
     totalCash = Number(totalCash) + Number(thisFruit.price);
-    $("#cash").text(totalCash);
+    $("#cash").text(totalCash.toFixed(2));
     thisFruit.totalPurchased--;
     $(`${$el}-counter`).text(thisFruit.totalPurchased);
-  } else {
-		alert("Can't sell what you ain't got!")
-	}
+  }
 }
 
-function clickBuy(thisFruit) {
-	console.log("buying", thisFruit.name, "for", thisFruit.price)
-	
+function buyFruit(thisFruit) {
+  console.log("buying", thisFruit.name, "for", thisFruit.price);
+
   if (totalCash >= thisFruit.price) {
     //subtract current price from total cash
     totalCash = (totalCash - thisFruit.price).toFixed(2);
@@ -122,10 +116,24 @@ function clickBuy(thisFruit) {
   }
 }
 
+function sellAllFruits() {
+  if (gameover) return;
+
+  for (var i = 0; i < fruitArray.length; i++) {
+    var thisFruit = fruitArray[i];
+    sellFruit(thisFruit.totalPurchased, thisFruit);
+  }
+  gameover = true;
+}
+
 $(document).ready(function () {
+  // give all fruits an initial price, and change it every 15 seconds
   repriceAllFruit();
 
   setInterval(repriceAllFruit, 15000);
+
+  // end game after 5 minutes and sell all fruits in inventory
+  setInterval(sellAllFruits, 5 * 60 * 1000);
 
   $(".buy-button").on("click", function () {
     //Loop through our array of fruits
@@ -133,7 +141,7 @@ $(document).ready(function () {
       //Identify the purchased fruit in the fruit array
       if (fruitArray[i].name == $(this).parent().attr("id")) {
         // var thisFruit = fruitArray[i];
-        clickBuy(fruitArray[i]);
+        buyFruit(fruitArray[i]);
       }
     }
   });
@@ -144,7 +152,7 @@ $(document).ready(function () {
       //Identify the purchased fruit in the fruit array
       if (fruitArray[i].name == $(this).parent().attr("id")) {
         // var thisFruit = fruitArray[i];
-        clickSell(fruitArray[i]);
+        sellFruit(1, fruitArray[i]);
       }
     }
   });
