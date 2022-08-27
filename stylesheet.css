@@ -105,10 +105,11 @@ h2 {
 	margin: 0 auto;
 }
 
-#apple, #orange, #banana, #grape, #pear{
+#apple, #orange, #banana, #pear {
 	display: inline;
 	float: left;
 	width: 185px;
+	height: 350px;
 	margin: 3px;
 	padding: 12px;
 	background-color: white;
