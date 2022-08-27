@@ -40,8 +40,8 @@ function randomPrice(fruit) {
 
   // convert currenet price to cents and add or remove flux
   var newPriceInCents = randomNumber(
-    fruit.price * 100 - fluctuation,
-    fruit.price * 100 + fluctuation
+    fruit.price * 100 - fluctuation * 100,
+    fruit.price * 100 + fluctuation * 100
   );
 
   // convert it back to dollars
@@ -57,7 +57,7 @@ function randomPrice(fruit) {
   }
   fruit.price = newPrice;
 
-  console.log(fruit.name, "is now", fruit.price);
+  console.log(fruit.name, "is now $", fruit.price.toFixed(2));
 }
 
 function repriceAllFruit() {
@@ -67,7 +67,7 @@ function repriceAllFruit() {
     randomPrice(fruitArray[i]);
 
     $("[id= " + fruitArray[i].name + "-current-price]").text(
-      fruitArray[i].price
+      fruitArray[i].price.toFixed(2)
     );
   }
 }
