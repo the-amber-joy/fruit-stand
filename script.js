@@ -74,13 +74,14 @@ function repriceAllFruit() {
 
 function sellFruit(howMany, thisFruit) {
   $el = "#" + thisFruit.name;
-
-  for (var i = 0; i < howMany; i++) {
-    totalCash = Number(totalCash) + Number(thisFruit.price);
-    $("#cash").text(totalCash.toFixed(2));
-    thisFruit.totalPurchased--;
-    $(`${$el}-counter`).text(thisFruit.totalPurchased);
-  }
+	if (thisFruit.totalPurchased > 0){
+		for (var i = 0; i < howMany; i++) {
+			totalCash = Number(totalCash) + Number(thisFruit.price);
+			$("#cash").text(totalCash.toFixed(2));
+			thisFruit.totalPurchased--;
+			$(`${$el}-counter`).text(thisFruit.totalPurchased);
+		}
+	}
 }
 
 function buyFruit(thisFruit) {
