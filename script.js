@@ -1,3 +1,9 @@
+var totalCash = 100
+var apple = {name: 'apple', price: 5, averagePrice: 5, totalSpent: 0, totalPurchased: 0}
+var orange = {name: 'orange', price: 5, averagePrice: 5, totalSpent: 0, totalPurchased: 0}
+var banana = {name:'banana', price: 5, averagePrice: 5, totalSpent: 0, totalPurchased: 0}
+var pear = {name:'pear', price: 5, averagePrice: 5, totalSpent: 0, totalPurchased: 0}
+var fruitArray = [apple, orange, banana, pear];
 
 function randomNumber(min, max) {
 	return Math.floor(Math.random() * (1 + max - min) + min);
@@ -23,26 +29,19 @@ function randomPrice(fruit) {
 //Here's a function that reprices all the fruits
 
 function repriceAllFruit() {
-	for (var i = 0; i<fruitArray.length; i++) {
+	for (var i = 0; i < fruitArray.length; i++) {
 		randomPrice(fruitArray[i]);
 
-	//Change display price in appropriate div
-	//Might be better to assign fruit specific ids like 
-	//'banana-price' to the appropriate divs and then we could write 
-	// $("[id =" + fruitArray[i].name + "-price").text(fruitArray[i].price)
-	// 
-	
-	$("[id= " + fruitArray[i].name ).children().first().next().children().first().text(fruitArray[i].price);
+	$("[id= " + fruitArray[i].name + "-current-price]" ).text(fruitArray[i].price);
 };
 };
 
 //The above function needs to run every 15 seconds.
-//Here's how to do that:
-
 setInterval(repriceAllFruit,15000);
 
 
 $(document).ready(function(){
+	repriceAllFruit()
 	$('button').on('click', function() {
 		//Loop through our array of fruits
 		for (var i=0; i<fruitArray.length;i++) {
@@ -74,7 +73,7 @@ $(document).ready(function(){
 						//Might be better to assign fruit specific ids to button divs 
 						//and to average price divs.  
 						//
-						$(this).parent().children().last().prev().prev().prev().children().first().text(fruitArray[i].averagePrice);
+						$("[id= " + fruitArray[i].name + "-avg-price]" ).text(fruitArray[i].averagePrice);
 
 						//Show the increased total number of this kind of fruit bought
 						$(this).parent().children().last().children().first().text(fruitArray[i].totalPurchased);
@@ -85,17 +84,3 @@ $(document).ready(function(){
 
 	});
 });
-
-var totalCash = 100
-var apple = {name: 'apple', price:0.69, averagePrice: 0.69, totalSpent: 0, totalPurchased:0}
-var orange = {name: 'orange', price: 1.00, averagePrice:1.00, totalSpent:0, totalPurchased:0}
-var banana = {name:'banana', price:0.50, averagePrice:0.50, totalSpent:0, totalPurchased:0}
-var pear = {name:'pear', price:0.75, averagePrice:0.75, totalSpent:0, totalPurchased:0}
-var fruitArray = [orange, apple, banana, pear];
-
-
-
-
-
-
-
