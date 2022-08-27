@@ -109,7 +109,7 @@ h2 {
 	display: inline;
 	float: left;
 	width: 185px;
-	height: 350px;
+	/* height: 350px; */
 	margin: 3px;
 	padding: 12px;
 	background-color: white;

@@ -126,7 +126,7 @@ function buyFruit(thisFruit) {
     //Might be better to assign fruit specific ids to button divs
     //and to average price divs.
     //
-    $(`#${thisFruit.name}-avg-price`).text(thisFruit.averagePrice);
+    $(`#${thisFruit.name}-avg-price`).text(thisFruit.averagePrice.toFixed(2));
 
     //Show the increased total number of this kind of fruit bought
     $(`#${thisFruit.name}-counter`).text(thisFruit.totalPurchased);
