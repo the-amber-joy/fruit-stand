@@ -48,8 +48,8 @@ function randomPrice(fruit) {
     fruit.price * 100 + fluctuation
   );
 
-	// convert it back to dollars
-	var newPrice = newPriceInCents/100
+  // convert it back to dollars
+  var newPrice = newPriceInCents / 100;
   //Any given fruit is not allowed to go below a cost of 50 cents,
   //or above the cost of 9 dollars and 99 cents.
 
@@ -74,138 +74,77 @@ function repriceAllFruit() {
   }
 }
 
-function clickSell() {
-  for (var i = 0; i < fruitArray.length; i++) {
-    $el = "#" + fruitArray[i].name;
+function clickSell(thisFruit) {
+	console.log("selling", thisFruit, "for", thisFruit.price)
 
-    if (fruitArray[i].name == $(this).parent().attr("id")) {
-      if (
-        fruitArray[i].name == $(this).parent().attr("id") &&
-        "#" +
-          fruitArray[i].name
-            .find(".fruit-counter")
-            .text(fruitArray[i].totalPurchased) >
-          0
-      ) {
-        totalCash = Number(totalCash) + Number(fruitArray[i].price);
-        $("h2").children().first().text(totalCash);
-        fruitArray[i].totalPurchased--;
-        $($el).find(".fruit-counter").text(fruitArray[i].totalPurchased);
-      }
-    }
+  $el = "#" + thisFruit.name;
+
+  if ($(`${$el}-counter`).text() > 0) {
+    totalCash = Number(totalCash) + Number(thisFruit.price);
+    $("#cash").text(totalCash);
+    thisFruit.totalPurchased--;
+    $(`${$el}-counter`).text(thisFruit.totalPurchased);
+  } else {
+		alert("Can't sell what you ain't got!")
+	}
+}
+
+function clickBuy(thisFruit) {
+	console.log("buying", thisFruit, "for", thisFruit.price)
+	
+  if (totalCash >= thisFruit.price) {
+    //subtract current price from total cash
+    totalCash = (totalCash - thisFruit.price).toFixed(2);
+
+    //Change Total Cash display
+    $("#cash").text(totalCash);
+
+    //Increase total # of this kind of fruit purchased by one
+    thisFruit.totalPurchased++;
+
+    //Increase total spent on this kind of fruit by current cost
+    //of this kind of fruit
+    thisFruit.totalSpent += thisFruit.price;
+
+    //adjust average cost of this kind of fruit
+    thisFruit.averagePrice =
+      Math.round((100 * thisFruit.totalSpent) / thisFruit.totalPurchased) / 100;
+
+    //Might be better to assign fruit specific ids to button divs
+    //and to average price divs.
+    //
+    $(`#${thisFruit.name}-avg-price`).text(thisFruit.averagePrice);
+
+    //Show the increased total number of this kind of fruit bought
+    $(`#${thisFruit.name}-counter`).text(thisFruit.totalPurchased);
+  } else {
+    alert("you broke, fool");
   }
 }
 
-function clickBuy() {
-  $("button").on("click", function () {
+$(document).ready(function () {
+  repriceAllFruit();
+
+  setInterval(repriceAllFruit, 15000);
+
+  $(".buy-button").on("click", function () {
     //Loop through our array of fruits
     for (var i = 0; i < fruitArray.length; i++) {
       //Identify the purchased fruit in the fruit array
       if (fruitArray[i].name == $(this).parent().attr("id")) {
-        if (totalCash >= fruitArray[i].price) {
-          //subtract current price from total cash
-          totalCash = (totalCash - fruitArray[i].price).toFixed(2);
-
-          //Change Total Cash display
-
-          $("h2").children().first().text(totalCash);
-
-          //Increase total # of this kind of fruit purchased by one
-          fruitArray[i].totalPurchased++;
-
-          //Increase total spent on this kind of fruit by current cost
-          //of this kind of fruit
-          fruitArray[i].totalSpent += fruitArray[i].price;
-
-          //adjust average cost of this kind of fruit
-          fruitArray[i].averagePrice =
-            Math.round(
-              (100 * fruitArray[i].totalSpent) / fruitArray[i].totalPurchased
-            ) / 100;
-
-          //Show the updated average cost of this kind of fruit
-          console.log(fruitArray[i].averagePrice);
-
-          //Might be better to assign fruit specific ids to button divs
-          //and to average price divs.
-          //
-          $(this)
-            .parent()
-            .children()
-            .last()
-            .prev()
-            .prev()
-            .prev()
-            .children()
-            .first()
-            .text(fruitArray[i].averagePrice);
-
-          //Show the increased total number of this kind of fruit bought
-          $(this)
-            .parent()
-            .children()
-            .last()
-            .children()
-            .first()
-            .text(fruitArray[i].totalPurchased);
-        } else {
-          alert("you broke, fool");
-        }
+        // var thisFruit = fruitArray[i];
+        clickBuy(fruitArray[i]);
       }
     }
   });
-}
 
-$(document).ready(function () {
-  setInterval(repriceAllFruit, 15000);
-  repriceAllFruit();
-  $("button").on("click", function () {
+  $(".sell-button").on("click", function () {
     //Loop through our array of fruits
     for (var i = 0; i < fruitArray.length; i++) {
       //Identify the purchased fruit in the fruit array
       if (fruitArray[i].name == $(this).parent().attr("id")) {
-        if (totalCash >= fruitArray[i].price) {
-          //subtract current price from total cash
-          totalCash = (totalCash - fruitArray[i].price).toFixed(2);
-
-          //Change Total Cash display
-
-          $("h2").children().first().text(totalCash);
-
-          //Increase total # of this kind of fruit purchased by one
-          fruitArray[i].totalPurchased++;
-
-          //Increase total spent on this kind of fruit by current cost
-          //of this kind of fruit
-          fruitArray[i].totalSpent += fruitArray[i].price;
-
-          //adjust average cost of this kind of fruit
-          fruitArray[i].averagePrice =
-            Math.round(
-              (100 * fruitArray[i].totalSpent) / fruitArray[i].totalPurchased
-            ) / 100;
-
-          //Show the updated average cost of this kind of fruit
-          console.log(fruitArray[i].averagePrice);
-
-          //Might be better to assign fruit specific ids to button divs
-          //and to average price divs.
-          //
-          $("[id= " + fruitArray[i].name + "-avg-price]").text(
-            fruitArray[i].averagePrice
-          );
-
-          //Show the increased total number of this kind of fruit bought
-          $(this)
-            .parent()
-            .children()
-            .last()
-            .children()
-            .first()
-            .text(fruitArray[i].totalPurchased);
-        } else {
-          alert("you broke, fool");
-        }
+        // var thisFruit = fruitArray[i];
+        clickSell(fruitArray[i]);
       }
     }
   });
