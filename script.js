@@ -2,31 +2,43 @@ var gameover = false;
 var totalCash = 100;
 var apple = {
   name: "apple",
-  price: 5,
-  averagePrice: 5,
+  price: 0,
+  averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
+  totalSold: 0,
+  totalEarned: 0,
+  averageEarned: 0,
 };
 var orange = {
   name: "orange",
-  price: 5,
-  averagePrice: 5,
+  price: 0,
+  averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
+  totalSold: 0,
+  totalEarned: 0,
+  averageEarned: 0,
 };
 var banana = {
   name: "banana",
-  price: 5,
-  averagePrice: 5,
+  price: 0,
+  averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
+  totalSold: 0,
+  totalEarned: 0,
+  averageEarned: 0,
 };
 var pear = {
   name: "pear",
-  price: 5,
-  averagePrice: 5,
+  price: 0,
+  averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
+  totalSold: 0,
+  totalEarned: 0,
+  averageEarned: 0,
 };
 var fruitArray = [apple, orange, banana, pear];
 
@@ -74,14 +86,20 @@ function repriceAllFruit() {
 
 function sellFruit(howMany, thisFruit) {
   $el = "#" + thisFruit.name;
-	if (thisFruit.totalPurchased > 0){
-		for (var i = 0; i < howMany; i++) {
-			totalCash = Number(totalCash) + Number(thisFruit.price);
-			$("#cash").text(totalCash.toFixed(2));
-			thisFruit.totalPurchased--;
-			$(`${$el}-counter`).text(thisFruit.totalPurchased);
-		}
-	}
+
+  if (thisFruit.totalPurchased > 0) {
+    for (var i = 0; i < howMany; i++) {
+      totalCash = Number(totalCash) + Number(thisFruit.price);
+      $("#cash").text(totalCash.toFixed(2));
+      thisFruit.totalPurchased--;
+      $(`${$el}-counter`).text(thisFruit.totalPurchased);
+
+      thisFruit.totalSold++;
+      thisFruit.totalEarned += thisFruit.price;
+      thisFruit.averageEarned = thisFruit.totalEarned / thisFruit.totalSold;
+      $(`#${thisFruit.name}-avg-sell`).text(thisFruit.averageEarned.toFixed(2));
+    }
+  }
 }
 
 function buyFruit(thisFruit) {
