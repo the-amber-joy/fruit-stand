@@ -123,12 +123,12 @@ span {
 	padding: 5px;
 }
 
-.button {
+.button, .buybutton {
 	background-color:#44c767;
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;
 	border-radius:10px;
-	border:1px solid #18ab29;
+	/*border:1px solid #18ab29;*/
 	display:block;
 	cursor:pointer;
 	color:#ffffff;
@@ -139,13 +139,13 @@ span {
 	margin: 5px auto 10px;
 }
 
-.button:hover {
+.button:hover, .buybutton:hover{
 	background-color: #5cff2a;
 }
 
-.button:active {
+.button:active, .buybutton:active{
 	position:relative;
-	top:3px;
+	top:10px;
 }
 
 .avg-price, .fruit-counter, .current-price {

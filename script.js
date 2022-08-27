@@ -5,6 +5,21 @@ var banana = {name:'banana', price: 5, averagePrice: 5, totalSpent: 0, totalPurc
 var pear = {name:'pear', price: 5, averagePrice: 5, totalSpent: 0, totalPurchased: 0}
 var fruitArray = [apple, orange, banana, pear];
 
+var totalCash = 100;
+var apple = {name: 'apple', price:0.69, averagePrice: 0.69, totalSpent: 0, totalPurchased:0};
+var orange = {name: 'orange', price: 1.00, averagePrice:1.00, totalSpent:0, totalPurchased:0};
+var banana = {name:'banana', price:0.50, averagePrice:0.50, totalSpent:0, totalPurchased:0};
+var pear = {name:'pear', price:0.75, averagePrice:0.75, totalSpent:0, totalPurchased:0};
+var fruitArray = [orange, apple, banana, pear];
+
+
+
+$(document).ready(function(){
+	$('.fruit').on('click', '.buybutton', clickBuy);
+	$('.fruit').on('click', '.button', clickSell);
+});
+	
+
 function randomNumber(min, max) {
 	return Math.floor(Math.random() * (1 + max - min) + min);
 }
@@ -17,16 +32,14 @@ function randomPrice(fruit) {
 	//if goes below 50 cents, set it to 50 cents
 	if (newPrice < 0.50) {
 		newPrice=0.50;
-
-	//if it goes higher than 9.99, set it to 9.99
 	} else if (newPrice > 9.99) {
 		newPrice=9.99;
 	}
 	fruit.price=newPrice;
-	console.log("new price of " + fruit.name + ": " + fruit.price);
+
+	var newPrice = randomNumber (fruit.price-0.50, fruit.price+0.50);
 }
 
-//Here's a function that reprices all the fruits
 
 function repriceAllFruit() {
 	for (var i = 0; i < fruitArray.length; i++) {
@@ -36,6 +49,20 @@ function repriceAllFruit() {
 };
 };
 
+function clickSell() {
+	for (var i=0; i<fruitArray.length;i++) {
+		$el = "#" + fruitArray[i].name;
+
+		if (fruitArray[i].name == $(this).parent().attr('id')) {
+		    if (fruitArray[i].name == $(this).parent().attr('id') && "#" + fruitArray[i].name.find(".fruit-counter").text(fruitArray[i].totalPurchased) > 0) {
+				totalCash = Number(totalCash) + Number(fruitArray[i].price);  	
+				$("h2").children().first().text(totalCash);
+			    fruitArray[i].totalPurchased--;
+			    $($el).find(".fruit-counter").text(fruitArray[i].totalPurchased);
+			}
+		}
+	}
+}
 //The above function needs to run every 15 seconds.
 setInterval(repriceAllFruit,15000);
 
@@ -81,6 +108,5 @@ $(document).ready(function(){
 				};			
 	} 
 	}
+}
 
-	});
-});
