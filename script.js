@@ -6,6 +6,7 @@ var apple = {
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
+  inventory: 0,
   totalSold: 0,
   totalEarned: 0,
   averageEarned: 0,
@@ -16,6 +17,7 @@ var orange = {
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
+  inventory: 0,
   totalSold: 0,
   totalEarned: 0,
   averageEarned: 0,
@@ -26,6 +28,7 @@ var banana = {
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
+  inventory: 0,
   totalSold: 0,
   totalEarned: 0,
   averageEarned: 0,
@@ -36,6 +39,7 @@ var pear = {
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
+  inventory: 0,
   totalSold: 0,
   totalEarned: 0,
   averageEarned: 0,
@@ -87,12 +91,12 @@ function repriceAllFruit() {
 function sellFruit(howMany, thisFruit) {
   $el = "#" + thisFruit.name;
 
-  if (thisFruit.totalPurchased > 0) {
+  if (thisFruit.inventory > 0) {
     for (var i = 0; i < howMany; i++) {
       totalCash = Number(totalCash) + Number(thisFruit.price);
       $("#cash").text(totalCash.toFixed(2));
-      thisFruit.totalPurchased--;
-      $(`${$el}-counter`).text(thisFruit.totalPurchased);
+      thisFruit.inventory--;
+      $(`${$el}-counter`).text(thisFruit.inventory);
 
       thisFruit.totalSold++;
       thisFruit.totalEarned += thisFruit.price;
@@ -103,8 +107,6 @@ function sellFruit(howMany, thisFruit) {
 }
 
 function buyFruit(thisFruit) {
-  console.log("buying", thisFruit.name, "for", thisFruit.price);
-
   if (totalCash >= thisFruit.price) {
     //subtract current price from total cash
     totalCash = (totalCash - thisFruit.price).toFixed(2);
@@ -113,6 +115,7 @@ function buyFruit(thisFruit) {
     $("#cash").text(totalCash);
 
     //Increase total # of this kind of fruit purchased by one
+    thisFruit.inventory++;
     thisFruit.totalPurchased++;
 
     //Increase total spent on this kind of fruit by current cost
@@ -120,8 +123,7 @@ function buyFruit(thisFruit) {
     thisFruit.totalSpent += thisFruit.price;
 
     //adjust average cost of this kind of fruit
-    thisFruit.averagePrice =
-      Math.round((100 * thisFruit.totalSpent) / thisFruit.totalPurchased) / 100;
+    thisFruit.averagePrice = thisFruit.totalSpent / thisFruit.totalPurchased;
 
     //Might be better to assign fruit specific ids to button divs
     //and to average price divs.
@@ -129,7 +131,7 @@ function buyFruit(thisFruit) {
     $(`#${thisFruit.name}-avg-price`).text(thisFruit.averagePrice.toFixed(2));
 
     //Show the increased total number of this kind of fruit bought
-    $(`#${thisFruit.name}-counter`).text(thisFruit.totalPurchased);
+    $(`#${thisFruit.name}-counter`).text(thisFruit.inventory);
   } else {
     alert("you broke, fool");
   }
@@ -140,7 +142,7 @@ function sellAllFruits() {
 
   for (var i = 0; i < fruitArray.length; i++) {
     var thisFruit = fruitArray[i];
-    sellFruit(thisFruit.totalPurchased, thisFruit);
+    sellFruit(thisFruit.inventory, thisFruit);
   }
   gameover = true;
 }
