@@ -56,12 +56,13 @@ function randomPrice(fruit) {
 
   // convert currenet price to cents and add or remove flux
   var newPriceInCents = randomNumber(
-    fruit.price * 100 - fluctuation * 100,
-    fruit.price * 100 + fluctuation * 100
+    fruit.price * 100 - fluctuation,
+    fruit.price * 100 + fluctuation
   );
 
   // convert it back to dollars
   var newPrice = newPriceInCents / 100;
+	console.log(newPrice)
   //Any given fruit is not allowed to go below a cost of 50 cents,
   //or above the cost of 9 dollars and 99 cents.
 
