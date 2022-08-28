@@ -159,9 +159,11 @@ button:active {
 	top:2.5px;
 }
 
-button:disabled {
+button:disabled, button:disabled:hover, button:disabled:active {
 	background-color: gray;
 	border:1px solid black;
+	top:0;
+	cursor: pointer;
 }
 
 .avg-price, .fruit-counter, .current-price {

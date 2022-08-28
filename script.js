@@ -1,3 +1,4 @@
+var highScore = localStorage.getItem("highScore");
 var gameover = false;
 var totalCash = 100;
 var apple = {
@@ -142,18 +143,30 @@ function sellAllFruits() {
     var thisFruit = fruitArray[i];
     sellFruit(thisFruit.inventory, thisFruit);
   }
+
+  highScore =
+    totalCash > highScore
+      ? totalCash
+      : parseFloat(highScore).toFixed(2);
+  localStorage.setItem("highScore", highScore);
+  $("#high-score").text(highScore);
+
   $(":button").prop("disabled", true);
   gameover = true;
 }
 
 $(document).ready(function () {
+	highScore = highScore ? parseFloat(highScore).toFixed(2) : 0;
+
+  $("#high-score").text(highScore);
+
   // give all fruits an initial price, and change it every 15 seconds
   repriceAllFruit();
 
   setInterval(repriceAllFruit, 15000);
 
   // end game after 5 minutes and sell all fruits in inventory
-  setInterval(sellAllFruits, 5 * 60 * 1000);
+  var sellAll = setInterval(sellAllFruits, 60 * 1000);
 
   $(".buy-button").on("click", function () {
     //Loop through our array of fruits
