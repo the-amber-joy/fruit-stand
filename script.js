@@ -146,7 +146,7 @@ function sellAllFruits() {
 
   highScore =
     totalCash > highScore
-      ? totalCash
+      ? parseFloat(totalCash).toFixed(2)
       : parseFloat(highScore).toFixed(2);
   localStorage.setItem("highScore", highScore);
   $("#high-score").text(highScore);
@@ -156,7 +156,7 @@ function sellAllFruits() {
 }
 
 $(document).ready(function () {
-	highScore = highScore ? parseFloat(highScore).toFixed(2) : 0;
+  highScore = highScore ? parseFloat(highScore).toFixed(2) : 0;
 
   $("#high-score").text(highScore);
 
