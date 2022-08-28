@@ -2,7 +2,7 @@ var gameover = false;
 var totalCash = 100;
 var apple = {
   name: "apple",
-  price: 0,
+  price: 5,
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
@@ -13,7 +13,7 @@ var apple = {
 };
 var orange = {
   name: "orange",
-  price: 0,
+  price: 5,
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
@@ -24,7 +24,7 @@ var orange = {
 };
 var banana = {
   name: "banana",
-  price: 0,
+  price: 5,
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
@@ -35,7 +35,7 @@ var banana = {
 };
 var pear = {
   name: "pear",
-  price: 0,
+  price: 5,
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
