@@ -52,17 +52,16 @@ function randomNumber(min, max) {
 
 function randomPrice(fruit) {
   // get number of cents to add or remove
-  const fluctuation = randomNumber(1, 50);
+  const fluctuationInCents = randomNumber(1, 50);
 
   // convert currenet price to cents and add or remove flux
   var newPriceInCents = randomNumber(
-    fruit.price * 100 - fluctuation,
-    fruit.price * 100 + fluctuation
+    fruit.price * 100 - fluctuationInCents,
+    fruit.price * 100 + fluctuationInCents
   );
 
   // convert it back to dollars
   var newPrice = newPriceInCents / 100;
-	console.log(newPrice)
   //Any given fruit is not allowed to go below a cost of 50 cents,
   //or above the cost of 9 dollars and 99 cents.
 
@@ -73,8 +72,6 @@ function randomPrice(fruit) {
     newPrice = 9.99;
   }
   fruit.price = newPrice;
-
-  console.log(fruit.name, "is now $", fruit.price.toFixed(2));
 }
 
 function repriceAllFruit() {
