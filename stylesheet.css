@@ -124,11 +124,9 @@ span {
 }
 
 button {
-	background-color:#44c767;
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;
 	border-radius:10px;
-	/*border:1px solid #18ab29;*/
 	display:block;
 	cursor:pointer;
 	color:#ffffff;
@@ -139,13 +137,31 @@ button {
 	margin: 5px auto 10px;
 }
 
+.buy-button {
+	background-color:#c74444;
+	border:1px solid #ab1818;
+}
+
+.buy-button:hover {
+	background-color: #ff2a2a;
+}
+
+.sell-button {
+	background-color:#44c767;
+	border:1px solid #18ab29;
+}
 button:hover {
 	background-color: #5cff2a;
 }
 
 button:active {
 	position:relative;
-	top:10px;
+	top:2.5px;
+}
+
+button:disabled {
+	background-color: gray;
+	border:1px solid black;
 }
 
 .avg-price, .fruit-counter, .current-price {

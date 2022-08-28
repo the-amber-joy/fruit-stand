@@ -144,6 +144,7 @@ function sellAllFruits() {
     var thisFruit = fruitArray[i];
     sellFruit(thisFruit.inventory, thisFruit);
   }
+  $(":button").prop("disabled", true);
   gameover = true;
 }
 
