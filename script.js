@@ -166,7 +166,7 @@ $(document).ready(function () {
   setInterval(repriceAllFruit, 15000);
 
   // end game after 5 minutes and sell all fruits in inventory
-  var sellAll = setInterval(sellAllFruits, 60 * 1000);
+  var sellAll = setInterval(sellAllFruits, 5 * 60 * 1000);
 
   $(".buy-button").on("click", function () {
     //Loop through our array of fruits
