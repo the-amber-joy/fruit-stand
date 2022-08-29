@@ -74,7 +74,6 @@ function randomPrice(fruit) {
   }
   fruit.price = newPrice;
 }
-
 function repriceAllFruit() {
   if (gameover) return;
 
@@ -83,6 +82,20 @@ function repriceAllFruit() {
 
     $("[id= " + fruitArray[i].name + "-current-price]").text(
       fruitArray[i].price.toFixed(2)
+    );
+  }
+}
+
+function setRandomPrices() {
+  for (var i = 0; i < fruitArray.length; i++) {
+		// pick initial price between $0.50 and $9.99
+		var initialPrice = Math.floor(Math.random() * (999 - 50 + 1) + 50) / 100;
+
+		console.log("Price for", fruitArray[i].name, initialPrice)
+
+    fruitArray[i].price = initialPrice;
+    $("[id= " + fruitArray[i].name + "-current-price]").text(
+      fruitArray[i].price
     );
   }
 }
@@ -174,13 +187,14 @@ function countdownTimer() {
 }
 
 $(document).ready(function () {
-	countdownTimer()
+  countdownTimer();
   highScore = highScore ? parseFloat(highScore).toFixed(2) : 0;
 
   $("#high-score").text(highScore);
 
   // give all fruits an initial price, and change it every 15 seconds
-  repriceAllFruit();
+  // repriceAllFruit();
+  setRandomPrices();
 
   setInterval(repriceAllFruit, 15000);
 
