@@ -2,8 +2,7 @@ var startButton;
 var highScore = localStorage.getItem("highScore");
 var gameover = false;
 var totalCash = 100;
-var apple = {
-  name: "apple",
+var defaultValues = {
   price: 0,
   averagePrice: 0,
   totalSpent: 0,
@@ -12,39 +11,22 @@ var apple = {
   totalSold: 0,
   totalEarned: 0,
   averageEarned: 0,
+};
+var apple = {
+  name: "apple",
+  ...defaultValues,
 };
 var orange = {
   name: "orange",
-  price: 0,
-  averagePrice: 0,
-  totalSpent: 0,
-  totalPurchased: 0,
-  inventory: 0,
-  totalSold: 0,
-  totalEarned: 0,
-  averageEarned: 0,
+  ...defaultValues,
 };
 var banana = {
   name: "banana",
-  price: 0,
-  averagePrice: 0,
-  totalSpent: 0,
-  totalPurchased: 0,
-  inventory: 0,
-  totalSold: 0,
-  totalEarned: 0,
-  averageEarned: 0,
+  ...defaultValues,
 };
 var pear = {
   name: "pear",
-  price: 0,
-  averagePrice: 0,
-  totalSpent: 0,
-  totalPurchased: 0,
-  inventory: 0,
-  totalSold: 0,
-  totalEarned: 0,
-  averageEarned: 0,
+  ...defaultValues,
 };
 var fruitArray = [apple, orange, banana, pear];
 
@@ -76,14 +58,12 @@ function randomPrice(fruit) {
 
 function setInitialPrices() {
   for (var i = 0; i < fruitArray.length; i++) {
-		var thisFruit = fruitArray[i]
+    var thisFruit = fruitArray[i];
     // pick initial price between $0.50 and $9.99
     var initialPrice = Math.floor(Math.random() * (999 - 50 + 1) + 50) / 100;
 
     thisFruit.price = initialPrice;
-    $("[id= " + thisFruit.name + "-current-price]").text(
-      thisFruit.price
-    );
+    $("[id= " + thisFruit.name + "-current-price]").text(thisFruit.price);
   }
 }
 
@@ -152,15 +132,47 @@ function sellAllFruits() {
   $(":button").prop("disabled", true);
 }
 
-function startGame() {
-	startButton = $("#start-button").detach()
+function resetGame() {
+  var apple = {
+    name: "apple",
+    ...defaultValues,
+  };
+  var orange = {
+    name: "orange",
+    ...defaultValues,
+  };
+  var banana = {
+    name: "banana",
+    ...defaultValues,
+  };
+  var pear = {
+    name: "pear",
+    ...defaultValues,
+  };
+  fruitArray = [apple, orange, banana, pear];
+  totalCash = 100;
+  $("#total-cash").text(totalCash.toFixed(2));
 
-	$(":button").prop("disabled", false);
+  for (var i = 0; i < fruitArray.length; i++) {
+    var thisFruit = fruitArray[i];
+
+    $(`#${thisFruit.name}-counter`).text("");
+    $(`#${thisFruit.name}-avg-price`).text("");
+    $(`#${thisFruit.name}-avg-sell`).text("");
+  }
+}
+
+function startGame() {
+	resetGame();
+
+  startButton = $("#start-button").detach();
+
+  $(":button").prop("disabled", false);
 
   // give all fruits an initial price, and change it every 15 seconds
   setInitialPrices();
 
-	  // start the game timer
+  // start the game timer
   $("#start-button").remove();
   countdownTimer();
 
@@ -168,7 +180,7 @@ function startGame() {
   var repriceInterval = setInterval(function () {
     if (gameover) clearInterval(repriceInterval);
     for (var i = 0; i < fruitArray.length; i++) {
-			var thisFruit = fruitArray[i]
+      var thisFruit = fruitArray[i];
       randomPrice(thisFruit);
 
       $("[id= " + thisFruit.name + "-current-price]").text(
@@ -179,7 +191,7 @@ function startGame() {
 }
 
 function countdownTimer() {
-  var timer1 = "0:30";
+  var timer1 = "5:00";
   var timerInterval = setInterval(function () {
     var timer = timer1.split(":");
     //by parsing integer, I avoid all extra string processing
@@ -188,12 +200,12 @@ function countdownTimer() {
     --seconds;
     minutes = seconds < 0 ? --minutes : minutes;
     if (minutes < 0) {
-			gameover = true;
+      gameover = true;
       clearInterval(timerInterval);
       // end game after 5 minutes and sell all fruits in inventory
       sellAllFruits();
-			$(".countdown").text("");
-			$(".countdown").append(startButton);
+      $(".countdown").text("");
+      $(".countdown").append(startButton);
     } else {
       seconds = seconds < 0 ? 59 : seconds;
       seconds = seconds.toLocaleString("en-US", {
@@ -206,8 +218,8 @@ function countdownTimer() {
 }
 
 $(document).ready(function () {
-	$(".sell-button").prop("disabled", true);
-	$(".buy-button").prop("disabled", true);
+  $(".sell-button").prop("disabled", true);
+  $(".buy-button").prop("disabled", true);
 
   highScore = highScore ? parseFloat(highScore).toFixed(2) : 0;
 
@@ -220,7 +232,7 @@ $(document).ready(function () {
   $(".buy-button").on("click", function () {
     //Loop through our array of fruits
     for (var i = 0; i < fruitArray.length; i++) {
-			var thisFruit = fruitArray[i]
+      var thisFruit = fruitArray[i];
       //Identify the purchased fruit in the fruit array
       if (thisFruit.name == $(this).parent().attr("id")) {
         buyFruit(thisFruit);
@@ -231,7 +243,7 @@ $(document).ready(function () {
   $(".sell-button").on("click", function () {
     //Loop through our array of fruits
     for (var i = 0; i < fruitArray.length; i++) {
-			var thisFruit = fruitArray[i]
+      var thisFruit = fruitArray[i];
 
       //Identify the purchased fruit in the fruit array
       if (thisFruit.name == $(this).parent().attr("id")) {
