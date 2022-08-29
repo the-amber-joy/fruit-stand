@@ -150,8 +150,6 @@ function buyFruit(thisFruit) {
 }
 
 function sellAllFruits() {
-  if (gameover) return;
-
   for (var i = 0; i < fruitArray.length; i++) {
     var thisFruit = fruitArray[i];
     sellFruit(thisFruit.inventory, thisFruit);
@@ -165,7 +163,14 @@ function sellAllFruits() {
   $("#high-score").text(highScore);
 
   $(":button").prop("disabled", true);
-  gameover = true;
+}
+
+function startGame() {
+  $("#start-button").remove();
+  countdownTimer();
+  // give all fruits an initial price, and change it every 15 seconds
+  setRandomPrices();
+  setInterval(repriceAllFruit, 15000);
 }
 
 function countdownTimer() {
@@ -177,24 +182,20 @@ function countdownTimer() {
     var seconds = parseInt(timer[1], 10);
     --seconds;
     minutes = seconds < 0 ? --minutes : minutes;
-    if (minutes < 0) clearInterval(interval);
-    seconds = seconds < 0 ? 59 : seconds;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
-    //minutes = (minutes < 10) ?  minutes : minutes;
-    $(".countdown").text(minutes + ":" + seconds);
-    timer1 = minutes + ":" + seconds;
+    if (minutes < 0) {
+      clearInterval(interval);
+      // end game after 5 minutes and sell all fruits in inventory
+      sellAllFruits();
+      gameover = true;
+    } else {
+      seconds = seconds < 0 ? 59 : seconds;
+      seconds = seconds.toLocaleString("en-US", {
+        minimumIntegerDigits: 2,
+      });
+      $(".countdown").text(minutes + ":" + seconds);
+      timer1 = minutes + ":" + seconds;
+    }
   }, 1000);
-}
-
-function startGame() {
-  $("#start-button").remove();
-  countdownTimer();
-  // give all fruits an initial price, and change it every 15 seconds
-  // repriceAllFruit();
-  setRandomPrices();
-  setInterval(repriceAllFruit, 15000);
-  // end game after 5 minutes and sell all fruits in inventory
-  setInterval(sellAllFruits, 5 * 60 * 1000);
 }
 
 $(document).ready(function () {
