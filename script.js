@@ -111,7 +111,7 @@ function buyFruit(thisFruit) {
     totalCash = (totalCash - thisFruit.price).toFixed(2);
 
     //Change Total Cash display
-    $("#cash").text(totalCash);
+    $("#total-cash").text(totalCash);
 
     //Increase total # of this kind of fruit purchased by one
     thisFruit.inventory++;
