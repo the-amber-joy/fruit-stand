@@ -55,14 +55,12 @@ function randomPrice(fruit) {
   // get number of cents to add or remove
   const fluctuationInCents = randomNumber(1, 50);
 
-  // convert currenet price to cents and add or remove flux
-  var newPriceInCents = randomNumber(
-    fruit.price * 100 - fluctuationInCents,
-    fruit.price * 100 + fluctuationInCents
-  );
+  var newPrice =
+    randomNumber(
+      fruit.price * 100 - fluctuationInCents,
+      fruit.price * 100 + fluctuationInCents
+    ) / 100;
 
-  // convert it back to dollars
-  var newPrice = newPriceInCents / 100;
   //Any given fruit is not allowed to go below a cost of 50 cents,
   //or above the cost of 9 dollars and 99 cents.
 
@@ -74,24 +72,11 @@ function randomPrice(fruit) {
   }
   fruit.price = newPrice;
 }
-function repriceAllFruit() {
-  if (gameover) return;
-
-  for (var i = 0; i < fruitArray.length; i++) {
-    randomPrice(fruitArray[i]);
-
-    $("[id= " + fruitArray[i].name + "-current-price]").text(
-      fruitArray[i].price.toFixed(2)
-    );
-  }
-}
 
 function setRandomPrices() {
   for (var i = 0; i < fruitArray.length; i++) {
     // pick initial price between $0.50 and $9.99
     var initialPrice = Math.floor(Math.random() * (999 - 50 + 1) + 50) / 100;
-
-    console.log("Price for", fruitArray[i].name, initialPrice);
 
     fruitArray[i].price = initialPrice;
     $("[id= " + fruitArray[i].name + "-current-price]").text(
@@ -166,11 +151,24 @@ function sellAllFruits() {
 }
 
 function startGame() {
-  $("#start-button").remove();
-  countdownTimer();
   // give all fruits an initial price, and change it every 15 seconds
   setRandomPrices();
-  setInterval(repriceAllFruit, 15000);
+
+	  // start the game timer
+  $("#start-button").remove();
+  countdownTimer();
+
+  // change prices every 15 seconds
+  var repriceInterval = setInterval(function () {
+    if (gameover) clearInterval(repriceInterval);
+    for (var i = 0; i < fruitArray.length; i++) {
+      randomPrice(fruitArray[i]);
+
+      $("[id= " + fruitArray[i].name + "-current-price]").text(
+        fruitArray[i].price.toFixed(2)
+      );
+    }
+  }, 15000);
 }
 
 function countdownTimer() {
