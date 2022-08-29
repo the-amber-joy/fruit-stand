@@ -73,14 +73,15 @@ function randomPrice(fruit) {
   fruit.price = newPrice;
 }
 
-function setRandomPrices() {
+function setInitialPrices() {
   for (var i = 0; i < fruitArray.length; i++) {
+		var thisFruit = fruitArray[i]
     // pick initial price between $0.50 and $9.99
     var initialPrice = Math.floor(Math.random() * (999 - 50 + 1) + 50) / 100;
 
-    fruitArray[i].price = initialPrice;
-    $("[id= " + fruitArray[i].name + "-current-price]").text(
-      fruitArray[i].price
+    thisFruit.price = initialPrice;
+    $("[id= " + thisFruit.name + "-current-price]").text(
+      thisFruit.price
     );
   }
 }
@@ -154,7 +155,7 @@ function startGame() {
 	$(":button").prop("disabled", false);
 
   // give all fruits an initial price, and change it every 15 seconds
-  setRandomPrices();
+  setInitialPrices();
 
 	  // start the game timer
   $("#start-button").remove();
@@ -164,10 +165,11 @@ function startGame() {
   var repriceInterval = setInterval(function () {
     if (gameover) clearInterval(repriceInterval);
     for (var i = 0; i < fruitArray.length; i++) {
-      randomPrice(fruitArray[i]);
+			var thisFruit = fruitArray[i]
+      randomPrice(thisFruit);
 
-      $("[id= " + fruitArray[i].name + "-current-price]").text(
-        fruitArray[i].price.toFixed(2)
+      $("[id= " + thisFruit.name + "-current-price]").text(
+        thisFruit.price.toFixed(2)
       );
     }
   }, 15000);
@@ -213,10 +215,10 @@ $(document).ready(function () {
   $(".buy-button").on("click", function () {
     //Loop through our array of fruits
     for (var i = 0; i < fruitArray.length; i++) {
+			var thisFruit = fruitArray[i]
       //Identify the purchased fruit in the fruit array
-      if (fruitArray[i].name == $(this).parent().attr("id")) {
-        // var thisFruit = fruitArray[i];
-        buyFruit(fruitArray[i]);
+      if (thisFruit.name == $(this).parent().attr("id")) {
+        buyFruit(thisFruit);
       }
     }
   });
@@ -224,10 +226,11 @@ $(document).ready(function () {
   $(".sell-button").on("click", function () {
     //Loop through our array of fruits
     for (var i = 0; i < fruitArray.length; i++) {
+			var thisFruit = fruitArray[i]
+
       //Identify the purchased fruit in the fruit array
-      if (fruitArray[i].name == $(this).parent().attr("id")) {
-        // var thisFruit = fruitArray[i];
-        sellFruit(1, fruitArray[i]);
+      if (thisFruit.name == $(this).parent().attr("id")) {
+        sellFruit(1, thisFruit);
       }
     }
   });
