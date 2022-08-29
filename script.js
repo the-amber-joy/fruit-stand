@@ -151,6 +151,8 @@ function sellAllFruits() {
 }
 
 function startGame() {
+	$(":button").prop("disabled", false);
+
   // give all fruits an initial price, and change it every 15 seconds
   setRandomPrices();
 
@@ -197,6 +199,9 @@ function countdownTimer() {
 }
 
 $(document).ready(function () {
+	$(".sell-button").prop("disabled", true);
+	$(".buy-button").prop("disabled", true);
+
   highScore = highScore ? parseFloat(highScore).toFixed(2) : 0;
 
   $("#high-score").text(highScore);
