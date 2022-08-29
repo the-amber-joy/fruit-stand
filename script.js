@@ -3,7 +3,7 @@ var gameover = false;
 var totalCash = 100;
 var apple = {
   name: "apple",
-  price: 5,
+  price: 0,
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
@@ -14,7 +14,7 @@ var apple = {
 };
 var orange = {
   name: "orange",
-  price: 5,
+  price: 0,
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
@@ -25,7 +25,7 @@ var orange = {
 };
 var banana = {
   name: "banana",
-  price: 5,
+  price: 0,
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
@@ -36,7 +36,7 @@ var banana = {
 };
 var pear = {
   name: "pear",
-  price: 5,
+  price: 0,
   averagePrice: 0,
   totalSpent: 0,
   totalPurchased: 0,
@@ -173,7 +173,7 @@ function startGame() {
 
 function countdownTimer() {
   var timer1 = "5:00";
-  var interval = setInterval(function () {
+  var timerInterval = setInterval(function () {
     var timer = timer1.split(":");
     //by parsing integer, I avoid all extra string processing
     var minutes = parseInt(timer[0], 10);
@@ -181,10 +181,10 @@ function countdownTimer() {
     --seconds;
     minutes = seconds < 0 ? --minutes : minutes;
     if (minutes < 0) {
-      clearInterval(interval);
+			gameover = true;
+      clearInterval(timerInterval);
       // end game after 5 minutes and sell all fruits in inventory
       sellAllFruits();
-      gameover = true;
     } else {
       seconds = seconds < 0 ? 59 : seconds;
       seconds = seconds.toLocaleString("en-US", {
