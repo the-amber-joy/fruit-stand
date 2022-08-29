@@ -93,7 +93,7 @@ function sellFruit(howMany, thisFruit) {
   if (thisFruit.inventory > 0) {
     for (var i = 0; i < howMany; i++) {
       totalCash = Number(totalCash) + Number(thisFruit.price);
-      $("#cash").text(totalCash.toFixed(2));
+      $("#total-cash").text(totalCash.toFixed(2));
       thisFruit.inventory--;
       $(`${$el}-counter`).text(thisFruit.inventory);
 
@@ -155,7 +155,26 @@ function sellAllFruits() {
   gameover = true;
 }
 
+function countdownTimer() {
+  var timer1 = "5:00";
+  var interval = setInterval(function () {
+    var timer = timer1.split(":");
+    //by parsing integer, I avoid all extra string processing
+    var minutes = parseInt(timer[0], 10);
+    var seconds = parseInt(timer[1], 10);
+    --seconds;
+    minutes = seconds < 0 ? --minutes : minutes;
+    if (minutes < 0) clearInterval(interval);
+    seconds = seconds < 0 ? 59 : seconds;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    //minutes = (minutes < 10) ?  minutes : minutes;
+    $(".countdown").text(minutes + ":" + seconds);
+    timer1 = minutes + ":" + seconds;
+  }, 1000);
+}
+
 $(document).ready(function () {
+	countdownTimer()
   highScore = highScore ? parseFloat(highScore).toFixed(2) : 0;
 
   $("#high-score").text(highScore);
