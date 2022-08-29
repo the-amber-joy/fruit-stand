@@ -1,3 +1,4 @@
+var startButton;
 var highScore = localStorage.getItem("highScore");
 var gameover = false;
 var totalCash = 100;
@@ -152,6 +153,8 @@ function sellAllFruits() {
 }
 
 function startGame() {
+	startButton = $("#start-button").detach()
+
 	$(":button").prop("disabled", false);
 
   // give all fruits an initial price, and change it every 15 seconds
@@ -176,7 +179,7 @@ function startGame() {
 }
 
 function countdownTimer() {
-  var timer1 = "5:00";
+  var timer1 = "0:30";
   var timerInterval = setInterval(function () {
     var timer = timer1.split(":");
     //by parsing integer, I avoid all extra string processing
@@ -189,6 +192,8 @@ function countdownTimer() {
       clearInterval(timerInterval);
       // end game after 5 minutes and sell all fruits in inventory
       sellAllFruits();
+			$(".countdown").text("");
+			$(".countdown").append(startButton);
     } else {
       seconds = seconds < 0 ? 59 : seconds;
       seconds = seconds.toLocaleString("en-US", {
