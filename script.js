@@ -1,4 +1,5 @@
 var startButton;
+var isPaused = false;
 var highScore = localStorage.getItem("highScore");
 var gameover = false;
 var totalCash = 100;
@@ -10,7 +11,6 @@ var defaultValues = {
   inventory: 0,
   totalSold: 0,
   totalEarned: 0,
-  averageEarned: 0,
 };
 var apple = {
   name: "apple",
@@ -53,7 +53,12 @@ function randomPrice(fruit) {
   } else if (newPrice > 9.99) {
     newPrice = 9.99;
   }
-  fruit.price = newPrice;
+
+  if (newPrice === fruit.price) {
+    randomPrice(fruit);
+  } else {
+    fruit.price = newPrice;
+  }
 }
 
 function setInitialPrices() {
@@ -79,8 +84,6 @@ function sellFruit(howMany, thisFruit) {
 
       thisFruit.totalSold++;
       thisFruit.totalEarned += thisFruit.price;
-      thisFruit.averageEarned = thisFruit.totalEarned / thisFruit.totalSold;
-      $(`#${thisFruit.name}-avg-sell`).text(thisFruit.averageEarned.toFixed(2));
     }
   }
 }
@@ -158,12 +161,11 @@ function resetGame() {
 
     $(`#${thisFruit.name}-counter`).text("");
     $(`#${thisFruit.name}-avg-price`).text("");
-    $(`#${thisFruit.name}-avg-sell`).text("");
   }
 }
 
 function startGame() {
-	resetGame();
+  resetGame();
 
   startButton = $("#start-button").detach();
 
@@ -175,6 +177,11 @@ function startGame() {
   // start the game timer
   $("#start-button").remove();
   countdownTimer();
+
+  // Add a pause button
+  // var pauseButton = $('<div><button id="pause-button">PAUSE</button></div>');
+  // pauseButton.insertAfter($(".countdown"))
+  // $(".stuff").prepend(pauseButton);
 
   // change prices every 15 seconds
   var repriceInterval = setInterval(function () {
@@ -193,26 +200,28 @@ function startGame() {
 function countdownTimer() {
   var timer1 = "5:00";
   var timerInterval = setInterval(function () {
-    var timer = timer1.split(":");
-    //by parsing integer, I avoid all extra string processing
-    var minutes = parseInt(timer[0], 10);
-    var seconds = parseInt(timer[1], 10);
-    --seconds;
-    minutes = seconds < 0 ? --minutes : minutes;
-    if (minutes < 0) {
-      gameover = true;
-      clearInterval(timerInterval);
-      // end game after 5 minutes and sell all fruits in inventory
-      sellAllFruits();
-      $(".countdown").text("");
-      $(".countdown").append(startButton);
-    } else {
-      seconds = seconds < 0 ? 59 : seconds;
-      seconds = seconds.toLocaleString("en-US", {
-        minimumIntegerDigits: 2,
-      });
-      $(".countdown").text(minutes + ":" + seconds);
-      timer1 = minutes + ":" + seconds;
+    if (!isPaused) {
+      var timer = timer1.split(":");
+      //by parsing integer, I avoid all extra string processing
+      var minutes = parseInt(timer[0], 10);
+      var seconds = parseInt(timer[1], 10);
+      --seconds;
+      minutes = seconds < 0 ? --minutes : minutes;
+      if (minutes < 0) {
+        gameover = true;
+        clearInterval(timerInterval);
+        // end game after 5 minutes and sell all fruits in inventory
+        sellAllFruits();
+        $(".countdown").text("");
+        $(".countdown").append(startButton);
+      } else {
+        seconds = seconds < 0 ? 59 : seconds;
+        seconds = seconds.toLocaleString("en-US", {
+          minimumIntegerDigits: 2,
+        });
+        $(".countdown").text(minutes + ":" + seconds);
+        timer1 = minutes + ":" + seconds;
+      }
     }
   }, 1000);
 }
@@ -228,6 +237,12 @@ $(document).ready(function () {
   $("#start-button").on("click", function () {
     startGame();
   });
+
+  // $("#pause-button").on("click", function (e) {
+  //   console.log(e);
+	// 	console.log("foo")
+  //   isPaused = true;
+  // });
 
   $(".buy-button").on("click", function () {
     //Loop through our array of fruits
